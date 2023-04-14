@@ -37,18 +37,27 @@ const getUser = (req, res) => {
     });
 };
 
-const createUser = (req, res) => {
-  const { name, avatar, about } = req.body;
+const createUser = (req, res, next) => {
+  const { name, about, avatar, password, email }
+    = req.body;
+  User.findOne({ email })
+    .then((user) => {
+      if (user) {
+        throw new ConflictError('The user with the provided email address already exists');
+      } else {
+        return bcrypt.hash(password, 10)
+      }
+    })
 
-  User.create({ name, avatar, about })
-    .then((user) => res.status(201).send({ data: user }))
+    .then((hash) => User.create({
+      name, about, avatar, email, password: hash,
+    }))
+    .then((data) => res.status(201).send({ data }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        const message = `${Object.values(err.errors).map((error) => error.message).join(', ')}`;
-
-        res.status(BAD_REQUEST_STATUS).send({ message });
+        next(new BadRequestError(`${Object.values(err.errors).map((error) => error.message).join(', ')}`));
       } else {
-        res.status(INTERNAL_SERVER_ERROR).send(INTERNAL_SERVER_ERR_MESSAGE);
+        next(err);
       }
     });
 };

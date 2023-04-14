@@ -1,0 +1,45 @@
+.cards {
+  max-width: 880px;
+  margin: 0 auto 68px auto;
+}
+
+.cards__gallery {
+  list-style-type: none;
+  margin: 0 auto;
+  padding-left: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 20px 17px;
+}
+
+@media screen and (max-width: 1024px) {
+  .cards {
+    margin: 0 auto 50px auto;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .cards {
+    max-width: 80%;
+  }
+
+  .cards__gallery {
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 17px 14px;
+  }
+}
+
+@media screen and (max-width: 740px) {
+  .cards__gallery {
+    grid-template-columns: repeat(1, 1fr);
+    grid-row-gap: 20px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .cards {
+    max-width: 90%;
+  }
+}

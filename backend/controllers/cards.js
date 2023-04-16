@@ -7,7 +7,7 @@ const {
   BAD_REQUEST_ERROR_MESSAGE,
   NOT_FOUND_ERR_MESSAGE,
   INTERNAL_SERVER_ERR_MESSAGE,
-} = require('../utils');
+} = require('../errors/errors');
 
 const getAllCards = (req, res) => {
   Card.find({})

@@ -1,5 +1,7 @@
-const User = require('../models/user');
+const jwt = require('jsonwebtoken');
 
+const User = require('../models/user');
+const { JWT_SECRET } = require('../utils/config');
 const {
   BAD_REQUEST_STATUS,
   NOT_FOUND_STATUS,
@@ -7,7 +9,8 @@ const {
   BAD_REQUEST_ERROR_MESSAGE,
   NOT_FOUND_ERR_MESSAGE,
   INTERNAL_SERVER_ERR_MESSAGE,
-} = require('../utils');
+  UNAUTHORIZED_ERR_MESSAGE
+} = require('../errors/errors');
 
 const getAllUsers = (req, res) => {
   User.find({})
@@ -36,6 +39,18 @@ const getUser = (req, res) => {
       }
     });
 };
+
+const login = (req, res, next) => {
+  const { email, password } = req.body;
+  return User.findUserByCredentials(email, password)
+    .then((user) => {
+      const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
+      res.send({ data: user.toJSON(), token });
+    })
+    .catch(() => {
+      next(new UNAUTHORIZED_ERR_MESSAGE);
+    });
+}
 
 const createUser = (req, res, next) => {
   const { name, about, avatar, password, email }

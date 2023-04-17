@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { AVATAR_LINK_REGEXP } = require('../constants');
+const { UNAUTHORIZED_ERR_MESSAGE } = require('../errors/errors');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -36,6 +37,23 @@ const userSchema = new mongoose.Schema({
     required: [true, 'password field is a required field'],
     select: false,
   },
-});
+},
+  { versionKey: false });
+
+userSchema.statics.findUserByCredentials = function (email, password) {
+  return this.findOne({ email }).select('+password')
+    .then((user) => {
+      if (!user) {
+        return Promise.reject(new UNAUTHORIZED_ERR_MESSAGE);
+      }
+      return bcrypt.compare(password, user.password)
+        .then((matched) => {
+          if (!matched) {
+            return Promise.reject(new UNAUTHORIZED_ERR_MESSAGE);
+          }
+          return user;
+        });
+    });
+};
 
 module.exports = mongoose.model('user', userSchema);

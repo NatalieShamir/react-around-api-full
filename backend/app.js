@@ -27,30 +27,6 @@ const allowedCors = [
   'localhost:3000',
 ];
 
-app.use(function (req, res, next) {//eslint-disable-line
-  const { origin } = req.headers;
-  const { method } = req;
-  const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
-  const requestHeaders = req.headers['access-control-request-headers'];
-
-  if (allowedCors.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', '*');
-  }
-
-  if (method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
-    res.header('Access-Control-Allow-Headers', requestHeaders);
-
-    return res.end();
-  }
-
-  req.user = {
-    _id: '63ff36be8d3ba41c9b7ff7c1',
-  };
-
-  next();
-});
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const {
-  getAllUsers, getUser, updateAvatar, updateProfile,
+  getAllUsers, getUser, updateAvatar, updateProfile, getCurrentUser
 } = require('../controllers/users');
 
 router.get('/', getAllUsers);

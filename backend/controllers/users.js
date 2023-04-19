@@ -11,11 +11,23 @@ const {
   INTERNAL_SERVER_ERR_MESSAGE,
   UNAUTHORIZED_ERR_MESSAGE
 } = require('../errors/errors');
+const users = require('../routes/users');
 
 const getAllUsers = (req, res) => {
   User.find({})
     .then((users) => res.send({ data: users }))
     .catch(() => res.status(INTERNAL_SERVER_ERROR).send(INTERNAL_SERVER_ERR_MESSAGE));
+};
+
+const getCurrentUser = (req, res, next) => {
+  getUserData(req.user._id, res, next)
+}
+
+const getUserData = (id, res, next) => {
+  User.findById(id)
+  orFail(() => new NOT_FOUND_ERR_MESSAGE)
+    .then((users) => res.send({ data: users }))
+    .catch(next);
 };
 
 const getUser = (req, res) => {
@@ -130,5 +142,6 @@ module.exports = {
   createUser,
   updateAvatar,
   updateProfile,
-  login
+  login,
+  getCurrentUser
 };

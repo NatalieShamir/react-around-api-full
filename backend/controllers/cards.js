@@ -7,6 +7,7 @@ const {
   BAD_REQUEST_ERROR_MESSAGE,
   NOT_FOUND_ERR_MESSAGE,
   INTERNAL_SERVER_ERR_MESSAGE,
+  ACCESS_DENIED_ERROR
 } = require('../errors/errors');
 
 const getAllCards = (req, res) => {
@@ -45,7 +46,11 @@ const deleteCard = (req, res) => {
 
       throw error;
     })
-    .then((card) => res.send({ message: 'The card has been successfully deleted', data: card }))
+    .then((card) => {
+      if (!card.owner.equals(req.user._id)) {
+        next(new ACCESS_DENIED_ERROR);
+      } else { res.send({ message: 'The card has been successfully deleted', data: card }) }
+    })
     .catch((err) => {
       if (err.name === 'CastError') {
         res.status(BAD_REQUEST_STATUS).send(BAD_REQUEST_ERROR_MESSAGE);

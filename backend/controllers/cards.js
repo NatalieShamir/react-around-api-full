@@ -48,7 +48,7 @@ const deleteCard = (req, res) => {
     })
     .then((card) => {
       if (!card.owner.equals(req.user._id)) {
-        next(new ACCESS_DENIED_ERROR);
+        next(new ACCESS_DENIED_ERROR({ message: 'You cannot delete someone elses card' }));
       } else { res.send({ message: 'The card has been successfully deleted', data: card }) }
     })
     .catch((err) => {

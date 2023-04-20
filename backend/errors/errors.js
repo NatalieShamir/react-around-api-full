@@ -1,7 +1,7 @@
 const BAD_REQUEST_STATUS = 400;
 const NOT_FOUND_STATUS = 404;
 const INTERNAL_SERVER_ERROR = 500;
-const ACCESS_DENIED_ERROR = { message: 'You cannot delete someone elses card' };
+const ACCESS_DENIED_ERROR = 403;
 const BAD_REQUEST_ERROR_MESSAGE = { message: 'Invalid ID format' };
 const NOT_FOUND_ERR_MESSAGE = { message: 'Requested resource not found' };
 const INTERNAL_SERVER_ERR_MESSAGE = { message: 'An error has occured on the server' };

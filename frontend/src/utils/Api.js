@@ -1,6 +1,7 @@
 class Api {
   constructor(options) {
     this._baseUrl = options.baseUrl;
+    this._headers = options.headers;
   }
 
   _request(url, options) {
@@ -16,29 +17,20 @@ class Api {
 
   getUserInfo() {
     return this._request(this._baseUrl + "/users/me", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
     });
   }
 
   getCardList() {
     return this._request(this._baseUrl + "/cards", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
     });
   }
 
   editProfile(name, about) {
     return this._request(this._baseUrl + "/users/me", {
       method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
       body: JSON.stringify({
         name,
         about,
@@ -49,10 +41,7 @@ class Api {
   createCard(name, link) {
     return this._request(this._baseUrl + "/cards", {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
       body: JSON.stringify({
         name,
         link,
@@ -63,30 +52,21 @@ class Api {
   addLike(id) {
     return this._request(this._baseUrl + "/cards/likes/" + id, {
       method: "PUT",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
     });
   }
 
   removeLike(id) {
     return this._request(this._baseUrl + "/cards/likes/" + id, {
       method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
     });
   }
 
   setUserAvatar(avatar) {
     return this._request(this._baseUrl + "/users/me/avatar", {
       method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
       body: JSON.stringify({
         avatar,
       }),
@@ -96,14 +76,15 @@ class Api {
   deleteCard(id) {
     return this._request(this._baseUrl + "/cards/" + id, {
       method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
     });
   }
 }
 
 export const api = new Api({
-  baseUrl: "http://localhost:3001",
+  baseUrl: "https://around.nomoreparties.co/v1/cohort-3-en",
+  headers: {
+    authorization: "c38a1131-295f-471c-b53b-3cfda4699ea7",
+    "Content-Type": "application/json",
+  },
 });

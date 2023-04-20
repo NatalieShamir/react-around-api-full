@@ -15,7 +15,6 @@ class Api {
   }
 
   getUserInfo() {
-    console.log("foo " + localStorage.getItem("jwt"))
     return this._request(this._baseUrl + "/users/me", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("jwt")}`,
@@ -106,5 +105,5 @@ class Api {
 }
 
 export const api = new Api({
-  baseUrl: "https://around.nomoreparties.co/v1/cohort-3-en",
+  baseUrl: "http://localhost:3001",
 });

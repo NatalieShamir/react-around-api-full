@@ -9,7 +9,8 @@ const {
   BAD_REQUEST_ERROR_MESSAGE,
   NOT_FOUND_ERR_MESSAGE,
   INTERNAL_SERVER_ERR_MESSAGE,
-  UNAUTHORIZED_ERR_MESSAGE
+  UNAUTHORIZED_ERR_MESSAGE,
+  ACCESS_DENIED_ERROR
 } = require('../errors/errors');
 const users = require('../routes/users');
 
@@ -100,7 +101,11 @@ const updateUserData = (req, res) => {
       throw error;
     })
     .then((user) => {
-      res.send({ data: user });
+      if (!user.equals(req.user._id)) {
+        next(new ACCESS_DENIED_ERROR({ message: 'You can only edit your own profile information' }));
+      } else {
+        res.send({ data: user });
+      }
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {

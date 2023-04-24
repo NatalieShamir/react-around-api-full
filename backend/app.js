@@ -15,12 +15,15 @@ const limiter = rateLimit({
 app.use(limiter);
 
 const bodyParser = require('body-parser');
+
+const { errors } = require('celebrate');
+
 const { userRouter } = require('./routes/users');
 const { cardRouter } = require('./routes/cards');
 const auth = require('./middleware/auth');
 const { createUser, login } = require('./controllers/users');
 const { validateUserBody, validateAuthentication } = require('./middleware/validation');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { requestLogger, errorLogger } = require('./middleware/logger');
 
 const { NOT_FOUND_STATUS, NOT_FOUND_ERR_MESSAGE } = require('./utils/config');
 

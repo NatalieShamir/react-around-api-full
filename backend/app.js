@@ -21,13 +21,7 @@ const auth = require('./middleware/auth');
 const { createUser, login } = require('./controllers/users');
 const { validateUserBody, validateAuthentication } = require('./middleware/validation');
 
-const { NOT_FOUND_STATUS, NOT_FOUND_ERR_MESSAGE } = require('./utils');
-
-const allowedCors = [
-  'https://practicum.tk',
-  'http://practicum.tk',
-  'localhost:3000',
-];
+const { NOT_FOUND_STATUS, NOT_FOUND_ERR_MESSAGE } = require('./utils/config');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

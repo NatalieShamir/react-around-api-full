@@ -12,7 +12,7 @@ function Register({ onRegister }) {
 
     return (
         <div className="register">
-            <form className="register__form">
+            <form onSubmit={handleRegister} className="register__form">
                 <h3 className="register__welcome">
                     Sign up
                 </h3>
@@ -23,7 +23,7 @@ function Register({ onRegister }) {
                 <input name="password" type="password" id="password-input" className="register__input" placeholder="Password" value={password}
                     onChange={e => setPassword(e.target.value)} />
                 <div className="register__button-container">
-                    <button onClick={handleRegister} className="register__link">Sign up</button>
+                    <button className="register__link">Sign up</button>
                 </div>
             </form>
 

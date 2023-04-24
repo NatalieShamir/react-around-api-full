@@ -12,7 +12,7 @@ function Login({ onLogin }) {
 
     return (
         <div className="login">
-            <form className="login__form" >
+            <form onSubmit={handleLogin} className="login__form" >
                 <h3 className="login__welcome">Log in</h3>
                 <label htmlFor="email"></label>
                 <input type="email" id="email-input" className="login__input" placeholder="Email"
@@ -20,7 +20,7 @@ function Login({ onLogin }) {
                 <label htmlFor="password"></label>
                 <input type="password" id="password-input" className="login__input" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
                 <div className="login__button-container">
-                    <button onClick={handleLogin} type="submit" className="login__link">
+                    <button type="submit" className="login__link">
                         Log in
                     </button>
                 </div>

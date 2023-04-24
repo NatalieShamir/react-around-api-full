@@ -1,33 +1,33 @@
 const { Joi, celebrate } = require('celebrate');
-const { ObjectId } = require('mongoose').Types
+const { ObjectId } = require('mongoose').Types;
 
-const { AVATAR_LINK_REGEXP } = require("../constants/index");
+const { AVATAR_LINK_REGEXP } = require('../constants/index');
 
-//Id Validation
+// Id Validation
 const validateObjId = celebrate({
   params: Joi.object().keys({
     id: Joi.string().required().custom((value, helpers) => {
       if (ObjectId.isValid(value)) {
         return value;
       }
-      return helpers.message('Invalid ID')
+      return helpers.message('Invalid ID');
     }),
   }),
 });
 
-//Card Validation
+// Card Validation
 const validateCardBody = celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30)
       .messages({
         'string.min': 'The minimum length of the "name" field is 2',
         'string.max': 'The maximum length of the "name" field is 30',
-        'string.empty': 'The "name" field must be filled-in'
+        'string.empty': 'The "name" field must be filled-in',
       }),
   }),
 });
 
-//User Validation
+// User Validation
 const validateUserBody = celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30)
@@ -51,11 +51,11 @@ const validateUserBody = celebrate({
       }),
     avatar: Joi.string()
       .pattern(AVATAR_LINK_REGEXP)
-      .message('The "avatar" field must be a valid URL')
+      .message('The "avatar" field must be a valid URL'),
   }),
 });
 
-//Login Validation
+// Login Validation
 const validateAuthentication = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email()
@@ -70,31 +70,31 @@ const validateAuthentication = celebrate({
   }),
 });
 
-//Avatar Validation
+// Avatar Validation
 const validateAvatar = celebrate({
   body: {
     avatar: Joi.string().required().pattern(AVATAR_LINK_REGEXP)
       .message('The "avatar" field must be a valid URL')
       .messages({
-        'string empty': 'The "avatar" field must be filled-in'
+        'string empty': 'The "avatar" field must be filled-in',
       }),
   },
 });
 
-//Profile Validation
+// Profile Validation
 const validateProfile = celebrate({
   body: {
     name: Joi.string().required().min(2).max(30)
       .messages({
         'string.min': 'The minimum length of the "name" field is 2',
         'string.max': 'The maximum length of the "name" field is 30',
-        'string.empty': 'The "name" field must be filled-in'
+        'string.empty': 'The "name" field must be filled-in',
       }),
     about: Joi.string().required().min(2).max(30)
       .messages({
         'string.min': 'The minimum length of the "about" field is 2',
         'string.max': 'The maximum length of the "about" field is 30',
-        'string.empty': 'The "about" field must be filled-in'
+        'string.empty': 'The "about" field must be filled-in',
       }),
   },
 });
@@ -105,5 +105,5 @@ module.exports = {
   validateUserBody,
   validateAuthentication,
   validateAvatar,
-  validateProfile
-}
+  validateProfile,
+};

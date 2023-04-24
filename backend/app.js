@@ -17,7 +17,9 @@ app.use(limiter);
 const bodyParser = require('body-parser');
 const { userRouter } = require('./routes/users');
 const { cardRouter } = require('./routes/cards');
+const auth = require('./middleware/auth');
 const { createUser, login } = require('./controllers/users');
+const { validateUserBody, validateAuthentication } = require('./middleware/validation');
 
 const { NOT_FOUND_STATUS, NOT_FOUND_ERR_MESSAGE } = require('./utils');
 
@@ -32,8 +34,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose.connect('mongodb://localhost:27017/aroundb');
 
-app.post('/signin', login);
-app.post('/signup', createUser);
+app.post('/signin', validateAuthentication, login);
+app.post('/signup', validateUserBody, createUser);
+app.use(auth);
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
 

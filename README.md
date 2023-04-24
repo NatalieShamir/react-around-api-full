@@ -13,3 +13,6 @@ This project is a responsive website, designed to be displayed on most popular s
 
 - CSS
 - React
+- MongoDB server
+- Postman
+- MongoDB Compass

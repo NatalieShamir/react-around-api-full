@@ -20,7 +20,7 @@ function PopupWithForm({
           type="button"
           aria-label="close"
           className="popup__close-button"
-        ></button>
+        />
         <form name={name} className="popup__form" onSubmit={onSubmit}>
           <h3 className="popup__form-title">{title}</h3>
           {children}

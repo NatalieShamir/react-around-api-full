@@ -5,14 +5,14 @@ const mongoose = require('mongoose');
 const { PORT = 3000 } = process.env;
 const app = express();
 
+var cors = require('cors');
+
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
   standardHeaders: true,
   legacyHeaders: false,
 });
-
-app.use(limiter);
 
 const bodyParser = require('body-parser');
 
@@ -26,6 +26,11 @@ const { validateUserBody, validateAuthentication } = require('./middleware/valid
 const { requestLogger, errorLogger } = require('./middleware/logger');
 
 const { NOT_FOUND_STATUS, NOT_FOUND_ERR_MESSAGE } = require('./utils/config');
+
+app.use(cors());
+app.options('*', cors());
+
+app.use(limiter);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

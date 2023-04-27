@@ -27,6 +27,8 @@ const { requestLogger, errorLogger } = require('./middleware/logger');
 
 const { NOT_FOUND_STATUS, NOT_FOUND_ERR_MESSAGE } = require('./utils/config');
 
+require('dotenv').config();
+
 app.use(cors());
 app.options('*', cors());
 

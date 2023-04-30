@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const { PORT = 3000 } = process.env;
 const app = express();
 
-var cors = require('cors');
+const cors = require('cors');
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,

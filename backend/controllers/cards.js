@@ -7,7 +7,7 @@ const {
   BAD_REQUEST_ERROR_MESSAGE,
   NOT_FOUND_ERR_MESSAGE,
   INTERNAL_SERVER_ERR_MESSAGE,
-  ACCESS_DENIED_ERROR
+  ACCESS_DENIED_ERROR,
 } = require('../errors/errors');
 
 const getAllCards = (req, res) => {
@@ -36,7 +36,7 @@ const createCard = (req, res) => {
     });
 };
 
-const deleteCard = (req, res) => {
+const deleteCard = (req, res, next) => {
   const { cardId } = req.params;
 
   Card.findByIdAndDelete(cardId)
@@ -49,7 +49,7 @@ const deleteCard = (req, res) => {
     .then((card) => {
       if (!card.owner.equals(req.user._id)) {
         next(new ACCESS_DENIED_ERROR({ message: 'You cannot delete someone elses card' }));
-      } else { res.send({ message: 'The card has been successfully deleted', data: card }) }
+      } else { res.send({ message: 'The card has been successfully deleted', data: card }); }
     })
     .catch((err) => {
       if (err.name === 'CastError') {

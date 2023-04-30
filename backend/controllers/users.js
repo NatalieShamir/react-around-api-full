@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 
+const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const { JWT_SECRET } = require('../utils/config');
 const {
@@ -10,9 +11,9 @@ const {
   NOT_FOUND_ERR_MESSAGE,
   INTERNAL_SERVER_ERR_MESSAGE,
   UNAUTHORIZED_ERR_MESSAGE,
-  ACCESS_DENIED_ERROR
+  ACCESS_DENIED_ERROR,
+  CONFLICT_ERROR,
 } = require('../errors/errors');
-const users = require('../routes/users');
 
 const getAllUsers = (req, res) => {
   User.find({})
@@ -20,15 +21,15 @@ const getAllUsers = (req, res) => {
     .catch(() => res.status(INTERNAL_SERVER_ERROR).send(INTERNAL_SERVER_ERR_MESSAGE));
 };
 
-const getCurrentUser = (req, res, next) => {
-  getUserData(req.user._id, res, next)
-}
-
 const getUserData = (id, res, next) => {
-  User.findById(id)
-  orFail(() => new NOT_FOUND_ERR_MESSAGE)
+  User.findById(id);
+  orFail(() => new NOT_FOUND_ERR_MESSAGE())//eslint-disable-line
     .then((users) => res.send({ data: users }))
     .catch(next);
+};
+
+const getCurrentUser = (req, res, next) => {
+  getUserData(req.user._id, res, next);
 };
 
 const getUser = (req, res) => {
@@ -61,19 +62,20 @@ const login = (req, res, next) => {
       res.send({ data: user.toJSON(), token });
     })
     .catch(() => {
-      next(new UNAUTHORIZED_ERR_MESSAGE);
+      next(new UNAUTHORIZED_ERR_MESSAGE());
     });
-}
+};
 
 const createUser = (req, res, next) => {
-  const { name, about, avatar, password, email }
-    = req.body;
+  const {
+    name, about, avatar, password, email,
+  } = req.body;
   User.findOne({ email })
     .then((user) => {
       if (user) {
-        throw new ConflictError('The user with the provided email address already exists');
+        throw new CONFLICT_ERROR('The user with the provided email address already exists');
       } else {
-        return bcrypt.hash(password, 10)
+        return bcrypt.hash(password, 10);
       }
     })
 
@@ -83,14 +85,14 @@ const createUser = (req, res, next) => {
     .then((data) => res.status(201).send({ data }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError(`${Object.values(err.errors).map((error) => error.message).join(', ')}`));
+        next(new BAD_REQUEST_STATUS(`${Object.values(err.errors).map((error) => error.message).join(', ')}`));
       } else {
         next(err);
       }
     });
 };
 
-const updateUserData = (req, res) => {
+const updateUserData = (req, res, next) => {
   const id = req.user._id;
   const { body } = req;
 
@@ -148,5 +150,5 @@ module.exports = {
   updateAvatar,
   updateProfile,
   login,
-  getCurrentUser
+  getCurrentUser,
 };

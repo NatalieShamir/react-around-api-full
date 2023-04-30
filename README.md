@@ -17,3 +17,8 @@ This project is a responsive website, designed to be displayed on most popular s
 - MongoDB server
 - Postman
 - MongoDB Compass
+- Google Cloud Remote Server
+
+**Server Domain Name**
+
+around.full.my.to

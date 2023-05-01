@@ -6,7 +6,7 @@ const { AVATAR_LINK_REGEXP } = require('../constants/index');
 // Id Validation
 const validateObjId = celebrate({
   params: Joi.object().keys({
-    id: Joi.string().required().custom((value, helpers) => {
+    userId: Joi.string().required().custom((value, helpers) => {
       if (ObjectId.isValid(value)) {
         return value;
       }

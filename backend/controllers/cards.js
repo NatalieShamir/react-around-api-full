@@ -1,19 +1,14 @@
 const Card = require('../models/card');
 
-const {
-  BAD_REQUEST_STATUS,
-  NOT_FOUND_STATUS,
-  INTERNAL_SERVER_ERROR,
-  BAD_REQUEST_ERROR_MESSAGE,
-  NOT_FOUND_ERR_MESSAGE,
-  INTERNAL_SERVER_ERR_MESSAGE,
-  ACCESS_DENIED_ERROR,
-} = require('../errors/errors');
+const BadRequestError = require('../errors/BadRequestError');
+const NotFoundError = require('../errors/NotFoundError');
+const InternalServerError = require('../errors/InternalServerError');
+const AccessDeniedError = require('../errors/AccessDeniedError');
 
 const getAllCards = (req, res) => {
   Card.find({})
     .then((cards) => res.send({ data: cards }))
-    .catch(() => res.status(INTERNAL_SERVER_ERROR).send(INTERNAL_SERVER_ERR_MESSAGE));
+    .catch(() => res.status(InternalServerError));
 };
 
 const createCard = (req, res) => {
@@ -29,9 +24,9 @@ const createCard = (req, res) => {
       if (err.name === 'ValidationError') {
         const message = `${Object.values(err.errors).map((error) => error.message).join(', ')}`;
 
-        res.status(BAD_REQUEST_STATUS).send({ message });
+        res.status(BadRequestError).send({ message });
       } else {
-        res.status(INTERNAL_SERVER_ERROR).send(INTERNAL_SERVER_ERR_MESSAGE);
+        res.status(InternalServerError);
       }
     });
 };
@@ -39,27 +34,16 @@ const createCard = (req, res) => {
 const deleteCard = (req, res, next) => {
   const { cardId } = req.params;
 
-  Card.findByIdAndDelete(cardId)
-    .orFail(() => {
-      const error = new Error('No card found with that ID');
-      error.status = 404;
-
-      throw error;
-    })
+  Card.findById(cardId)
+    .orFail(() => new NotFoundError('No card found with that ID'))
     .then((card) => {
       if (!card.owner.equals(req.user._id)) {
-        next(new ACCESS_DENIED_ERROR({ message: 'You cannot delete someone elses card' }));
-      } else { res.send({ message: 'The card has been successfully deleted', data: card }); }
-    })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        res.status(BAD_REQUEST_STATUS).send(BAD_REQUEST_ERROR_MESSAGE);
-      } else if (err.status === 404) {
-        res.status(NOT_FOUND_STATUS).send(NOT_FOUND_ERR_MESSAGE);
-      } else {
-        res.status(INTERNAL_SERVER_ERROR).send(INTERNAL_SERVER_ERR_MESSAGE);
+        return next(new AccessDeniedError('You cannot delete someone elses card'));
       }
-    });
+      return card.deleteOne()
+        .then(() => res.send({ message: 'Card  deleted successfully' }));
+    })
+    .catch(next);
 };
 
 const updateLikes = (req, res, operator) => {
@@ -80,11 +64,11 @@ const updateLikes = (req, res, operator) => {
     .then((card) => res.send({ data: card }))
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(BAD_REQUEST_STATUS).send(BAD_REQUEST_ERROR_MESSAGE);
+        res.status(BadRequestError).send('Invalid ID format');
       } else if (err.status === 404) {
-        res.status(NOT_FOUND_STATUS).send(NOT_FOUND_ERR_MESSAGE);
+        res.status(NotFoundError);
       } else {
-        res.status(INTERNAL_SERVER_ERROR).send(INTERNAL_SERVER_ERR_MESSAGE);
+        res.status(InternalServerError);
       }
     });
 };

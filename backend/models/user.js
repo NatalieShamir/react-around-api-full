@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
 const { AVATAR_LINK_REGEXP } = require('../constants');
-const { UNAUTHORIZED_ERR_MESSAGE } = require('../errors/errors');
+const UNAUTHORIZED_ERR_MESSAGE = { message: 'Incorrect email or password' };
 
 const userSchema = new mongoose.Schema(
   {

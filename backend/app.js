@@ -29,17 +29,19 @@ const { NOT_FOUND_STATUS, NOT_FOUND_ERR_MESSAGE } = require('./utils/config');
 
 require('dotenv').config();
 
-app.use(cors());
-app.options('*', cors());
+app.use(requestLogger);
 
 app.use(limiter);
+
+app.use(cors());
+app.options('*', cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose.connect('mongodb://localhost:27017/aroundb');
 
-app.use(requestLogger);
+
 
 app.get('/crash-test', () => {
   setTimeout(() => {

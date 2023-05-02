@@ -25,7 +25,7 @@ const { createUser, login } = require('./controllers/users');
 const { validateUserBody, validateAuthentication } = require('./middleware/validation');
 const { requestLogger, errorLogger } = require('./middleware/logger');
 
-const { NOT_FOUND_STATUS, NOT_FOUND_ERR_MESSAGE } = require('./utils/config');
+const NotFoundError = require('./errors/NotFoundError');
 
 require('dotenv').config();
 
@@ -52,13 +52,13 @@ app.use(auth);
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
 
+app.use('*', (req, res) => {
+  res.status(NotFoundError);
+});
+
 app.use(errorLogger);
 
 app.use(errors());
-
-app.use('*', (req, res) => {
-  res.status(NOT_FOUND_STATUS).send(NOT_FOUND_ERR_MESSAGE);
-});
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);//eslint-disable-line

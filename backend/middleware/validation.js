@@ -3,6 +3,13 @@ const { ObjectId } = require('mongoose').Types;
 
 const { AVATAR_LINK_REGEXP } = require('../constants/index');
 
+const validateUrl = (value, helpers) => {
+  if (validator.isURL(value)) {
+    return value;
+  }
+  return helpers.error('string.uri');
+}
+
 // Id Validation
 const validateObjId = celebrate({
   params: Joi.object().keys({
@@ -23,6 +30,11 @@ const validateCardBody = celebrate({
         'string.min': 'The minimum length of the "name" field is 2',
         'string.max': 'The maximum length of the "name" field is 30',
         'string.empty': 'The "name" field must be filled-in',
+      }),
+    link: Joi.string().required().custom(validateUrl)
+      .message('The "link" field must be a valid URL')
+      .messages({
+        'string empty': 'The "link" field must be filled-in',
       }),
   }),
 });

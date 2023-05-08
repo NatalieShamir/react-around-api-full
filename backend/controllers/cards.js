@@ -12,7 +12,7 @@ const getAllCards = (req, res) => {
 };
 
 const createCard = (req, res) => {
-  const { name, link } = req.body;
+  const { name, link, likes } = req.body;
 
   const owner = req.user._id;
 

@@ -4,11 +4,11 @@ const { ObjectId } = require('mongoose').Types;
 const { AVATAR_LINK_REGEXP } = require('../constants/index');
 
 const validateUrl = (value, helpers) => {
-  if (validator.isURL(value)) {
+  if (validator.isURL(value)) {//eslint-disable-line
     return value;
   }
   return helpers.error('string.uri');
-}
+};
 
 // Id Validation
 const validateObjId = celebrate({

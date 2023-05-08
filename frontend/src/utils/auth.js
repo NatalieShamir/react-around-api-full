@@ -1,4 +1,4 @@
-export const BASE_URL = "api.around.full.my.to"
+export const BASE_URL = "https://register.nomoreparties.co"
 
 function checkResponse(res) {
     if (res.ok) {

@@ -22,3 +22,4 @@ This project is a responsive website, designed to be displayed on most popular s
 **Server Domain Name**
 
 around.full.my.to
+www.around.full.my.to

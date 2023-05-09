@@ -7,7 +7,6 @@ const { JWT_SECRET } = require('../utils/config');
 const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
 const InternalServerError = require('../errors/InternalServerError');
-const AccessDeniedError = require('../errors/AccessDeniedError');
 const ConflictError = require('../errors/ConflictError');
 
 const getAllUsers = (req, res) => {

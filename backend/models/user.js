@@ -11,19 +11,16 @@ const userSchema = new mongoose.Schema(
       default: 'Jacques Cousteau',
       minlength: [2, 'This field should contain at least 2 characters'],
       maxlength: [30, 'This field should contain maximum 30 characters'],
-      required: true,
     },
     about: {
       type: String,
       default: 'Explorer',
       minlength: [2, 'This field should contain at least 2 characters'],
       maxlength: [30, 'This field should contain maximum 30 characters'],
-      required: true,
     },
     avatar: {
       type: String,
       default: 'https://pictures.s3.yandex.net/resources/avatar_1604080799.jpg',
-      required: true,
       validate: {
         validator: (v) => AVATAR_LINK_REGEXP.test(v),
         message: 'Please fill-in this field',

@@ -98,11 +98,7 @@ const updateUserData = (req, res, next) => {
       throw error;
     })
     .then((user) => {
-      if (!user.equals(req.user._id)) {
-        next(new AccessDeniedError('You can only edit your own profile information'));
-      } else {
-        res.send({ data: user });
-      }
+      res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -119,22 +115,10 @@ const updateUserData = (req, res, next) => {
 };
 
 const updateProfile = (req, res) => { // eslint-disable-line consistent-return
-  const { name, about } = req.body;
-
-  if (!name || !about) {
-    return res.status(BadRequestError).send({ message: 'Please fill-in name and about fields' });
-  }
-
   updateUserData(req, res);
 };
 
 const updateAvatar = (req, res) => { // eslint-disable-line consistent-return
-  const { avatar } = req.body;
-
-  if (!avatar) {
-    return res.status(BadRequestError).send({ message: 'Please fill-in avatar field' });
-  }
-
   updateUserData(req, res);
 };
 

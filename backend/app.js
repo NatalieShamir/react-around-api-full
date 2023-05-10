@@ -52,8 +52,8 @@ app.use(auth);
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
 
-app.use('*', (req, res) => {
-  res.status(NotFoundError);
+app.use('*', (req, res, next) => {
+  next(new NotFoundError('Not found route'));
 });
 
 app.use(errorLogger);

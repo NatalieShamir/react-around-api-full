@@ -25,6 +25,8 @@ const { createUser, login } = require('./controllers/users');
 const { validateUserBody, validateAuthentication } = require('./middleware/validation');
 const { requestLogger, errorLogger } = require('./middleware/logger');
 
+const errorHandler = require('./middleware/error-handler');
+
 const NotFoundError = require('./errors/NotFoundError');
 
 require('dotenv').config();
@@ -57,9 +59,8 @@ app.use('*', (req, res, next) => {
 });
 
 app.use(errorLogger);
-
 app.use(errors());
-
+app.use(errorHandler);
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);//eslint-disable-line
 });

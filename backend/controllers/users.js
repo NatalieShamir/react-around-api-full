@@ -8,11 +8,12 @@ const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
 const InternalServerError = require('../errors/InternalServerError');
 const ConflictError = require('../errors/ConflictError');
+const UnauthorizedError = require('../errors/UnauthorizedError');
 
 const getAllUsers = (req, res) => {
   User.find({})
     .then((users) => res.send({ data: users }))
-    .catch(() => res.status(InternalServerError));
+    .catch(() => next(InternalServerError('An error has occured on the server')));
 };
 
 const getUserData = (id, res, next) => {
@@ -56,7 +57,7 @@ const login = (req, res, next) => {
       res.send({ data: user.toJSON(), token });
     })
     .catch(() => {
-      next(new { message: 'Incorrect email or password' }());
+      next(UnauthorizedError('Incorrect email or password'));
     });
 };
 

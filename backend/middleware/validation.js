@@ -39,6 +39,17 @@ const validateCardBody = celebrate({
   }),
 });
 
+const validateCardId = celebrate({
+  params: Joi.object().keys({
+    cardId: Joi.string().required().custom((value, helpers) => {
+      if (ObjectId.isValid(value)) {
+        return value;
+      }
+      return helpers.message('Invalid card ID');
+    }),
+  }),
+})
+
 // User Validation
 const validateUserBody = celebrate({
   body: Joi.object().keys({
@@ -114,6 +125,7 @@ const validateProfile = celebrate({
 module.exports = {
   validateObjId,
   validateCardBody,
+  validateCardId,
   validateUserBody,
   validateAuthentication,
   validateAvatar,

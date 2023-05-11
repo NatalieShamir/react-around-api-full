@@ -13,7 +13,7 @@ const UnauthorizedError = require('../errors/UnauthorizedError');
 const getAllUsers = (req, res) => {
   User.find({})
     .then((users) => res.send({ data: users }))
-    .catch(() => next(InternalServerError('An error has occured on the server')));
+    .catch(() => next(new InternalServerError('An error has occured on the server')));
 };
 
 const getUserData = (id, res, next) => {
@@ -57,7 +57,7 @@ const login = (req, res, next) => {
       res.send({ data: user.toJSON(), token });
     })
     .catch(() => {
-      next(UnauthorizedError('Incorrect email or password'));
+      next(new UnauthorizedError('Incorrect email or password'));
     });
 };
 

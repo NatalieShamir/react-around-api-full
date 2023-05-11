@@ -8,7 +8,7 @@ const AccessDeniedError = require('../errors/AccessDeniedError');
 const getAllCards = (req, res) => {
   Card.find({})
     .then((cards) => res.send({ data: cards }))
-    .catch(() => res.status(InternalServerError));
+    .catch(() => next(InternalServerError('An error has occured on the server')));
 };
 
 const createCard = (req, res) => {

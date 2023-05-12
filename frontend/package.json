@@ -16,7 +16,7 @@
   "scripts": {
     "start": "react-scripts start",
     "predeploy": "npm run build",
-    "deploy": "npm run build && scp -r ./build/* nataliashamir85@around.full.my.to:/home/nataliashamir85/frontend",
+    "deploy": "npm run build && scp -r ./build/* nataliashamir85@around.full.my.to:/home/nataliashamir85/react-around-api-full/frontend",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

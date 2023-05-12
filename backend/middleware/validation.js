@@ -48,7 +48,7 @@ const validateCardId = celebrate({
       return helpers.message('Invalid card ID');
     }),
   }),
-})
+});
 
 // User Validation
 const validateUserBody = celebrate({

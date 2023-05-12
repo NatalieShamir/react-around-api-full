@@ -10,15 +10,15 @@ const InternalServerError = require('../errors/InternalServerError');
 const ConflictError = require('../errors/ConflictError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 
-const getAllUsers = (req, res) => {
+const getAllUsers = (req, res, next) => {
   User.find({})
     .then((users) => res.send({ data: users }))
     .catch(() => next(new InternalServerError('An error has occured on the server')));
 };
 
-const getUserData = (id, res, next) => {
+const getUserData = (id, req, res, next) => {
   User.findById(id);
-  orFail(() => new NotFoundError())//eslint-disable-line
+  orFail(() => new NotFoundError('The requested resourse was not found'))//eslint-disable-line
     .then((users) => res.send({ data: users }))
     .catch(next);
 };
@@ -27,24 +27,20 @@ const getCurrentUser = (req, res, next) => {
   getUserData(req.user._id, res, next);
 };
 
-const getUser = (req, res) => {
+const getUser = (req, res, next) => {
   const { userId } = req.params;
   User.findById(userId)
-    .orFail(() => {
-      const error = new Error(`No user found with ID of ${req.user._id}`);
-      error.status = 404;
-      throw error;
-    })
+    .orFail(() => new NotFoundError(`No user found with ID of ${req.user._id}`))
     .then((users) => {
       res.send({ data: users });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(BadRequestError).send('Invalid ID format');
+        next(BadRequestError('Invalid ID format'));
       } else if (err.status === 404) {
-        res.status(NotFoundError);
+        next(NotFoundError('The requested resource was not found'));
       } else {
-        res.status(InternalServerError);
+        next(InternalServerError('An error has occured on the server'));
       }
     });
 };
@@ -91,35 +87,31 @@ const updateUserData = (req, res, next) => {
   const id = req.user._id;
   const { body } = req;
 
-  User.findByIdAndUpdate(id, body, { new: true, runValidators: true })
-    .orFail(() => {
-      const error = new Error(`No user found with ID of ${req.user._id}`);
-      error.status = 404;
-      throw error;
-    })
+  User.findByIdAndUpdate(id, body, { new: true, runValidators: true });
+  orFail(() => new NotFoundError('The requested resourse was not found'))//eslint-disable-line
     .then((user) => {
       res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(BadRequestError).send({ message: 'Invalid data' });
+        next(new BadRequestError('Invalid data'));
       }
       if (err.name === 'CastError') {
-        res.status(BadRequestError).send({ message: 'Invalid ID format' });
+        next(new BadRequestError('Invalid ID format'));
       } else if (err.status === 404) {
-        res.status(404).send({ message: err.message });
+        next(new NotFoundError('The requested resource was not found'));
       } else {
-        res.status(InternalServerError);
+        next(new InternalServerError('An error has occured on the server'));
       }
     });
 };
 
-const updateProfile = (req, res) => { // eslint-disable-line consistent-return
-  updateUserData(req, res);
+const updateProfile = (req, res, next) => { // eslint-disable-line consistent-return
+  updateUserData(req, res, next);
 };
 
-const updateAvatar = (req, res) => { // eslint-disable-line consistent-return
-  updateUserData(req, res);
+const updateAvatar = (req, res, next) => { // eslint-disable-line consistent-return
+  updateUserData(req, res, next);
 };
 
 module.exports = {

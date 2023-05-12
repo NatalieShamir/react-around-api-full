@@ -5,13 +5,13 @@ const NotFoundError = require('../errors/NotFoundError');
 const InternalServerError = require('../errors/InternalServerError');
 const AccessDeniedError = require('../errors/AccessDeniedError');
 
-const getAllCards = (req, res) => {
+const getAllCards = (req, res, next) => {
   Card.find({})
     .then((cards) => res.send({ data: cards }))
     .catch(() => next(new InternalServerError('An error has occured on the server')));
 };
 
-const createCard = (req, res) => {
+const createCard = (req, res, next) => {
   const { name, link, likes } = req.body;
 
   const owner = req.user._id;
@@ -24,9 +24,9 @@ const createCard = (req, res) => {
       if (err.name === 'ValidationError') {
         const message = `${Object.values(err.errors).map((error) => error.message).join(', ')}`;
 
-        res.status(BadRequestError).send({ message });
+        next(new BadRequestError({ message }));
       } else {
-        res.status(InternalServerError);
+        next(new InternalServerError('An error has occured on the server'));
       }
     });
 };
@@ -41,12 +41,12 @@ const deleteCard = (req, res, next) => {
         return next(new AccessDeniedError('You cannot delete someone elses card'));
       }
       return card.deleteOne()
-        .then(() => res.send({ message: 'Card  deleted successfully' }));
+        .then(() => res.send({ message: 'Card deleted successfully' }));
     })
     .catch(next);
 };
 
-const updateLikes = (req, res, operator) => {
+const updateLikes = (req, res, next, operator) => {
   const { cardId } = req.params;
   const userId = req.user._id;
 
@@ -64,11 +64,11 @@ const updateLikes = (req, res, operator) => {
     .then((card) => res.send({ data: card }))
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(BadRequestError).send('Invalid ID format');
+        next(new BadRequestError('Invalid ID format'));
       } else if (err.status === 404) {
-        res.status(NotFoundError);
+        next(new NotFoundError('Requested resource not found'));
       } else {
-        res.status(InternalServerError);
+        next(new InternalServerError('An error has occured on the server'));
       }
     });
 };

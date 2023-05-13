@@ -3,8 +3,10 @@ const { ObjectId } = require('mongoose').Types;
 
 const { AVATAR_LINK_REGEXP } = require('../constants/index');
 
+const validator = require('validator');
+
 const validateUrl = (value, helpers) => {
-  if (validator.isURL(value)) {//eslint-disable-line
+  if (validator.isURL(value)) {
     return value;
   }
   return helpers.error('string.uri');

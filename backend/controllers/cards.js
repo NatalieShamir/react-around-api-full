@@ -75,7 +75,7 @@ const updateLikes = (req, res, next, operator) => {
 
 const likeCard = (req, res, next) => updateLikes(req, res, next, '$addToSet');
 
-const dislikeCard = (req, res) => updateLikes(req, res, '$pull');
+const dislikeCard = (req, res, next) => updateLikes(req, res, next, '$pull');
 
 module.exports = {
   getAllCards,

@@ -1,9 +1,9 @@
 const { Joi, celebrate } = require('celebrate');
 const { ObjectId } = require('mongoose').Types;
 
-const { AVATAR_LINK_REGEXP } = require('../constants/index');
-
 const validator = require('validator');
+
+const { AVATAR_LINK_REGEXP } = require('../constants/index');
 
 const validateUrl = (value, helpers) => {
   if (validator.isURL(value)) {

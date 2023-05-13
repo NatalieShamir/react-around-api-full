@@ -87,8 +87,8 @@ const updateUserData = (req, res, next) => {
   const id = req.user._id;
   const { body } = req;
 
-  User.findByIdAndUpdate(id, body, { new: true, runValidators: true });
-  orFail(() => new NotFoundError('The requested resourse was not found'))//eslint-disable-line
+  User.findByIdAndUpdate(id, body, { new: true, runValidators: true })
+    .orFail(() => new NotFoundError('The requested resourse was not found'))
     .then((user) => {
       res.send({ data: user });
     })

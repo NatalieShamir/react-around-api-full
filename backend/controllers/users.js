@@ -98,7 +98,7 @@ const updateUserData = (req, res, next) => {
       }
       if (err.name === 'CastError') {
         next(new BadRequestError('Invalid ID format'));
-      } else if (err.status === 404) {
+      } else if (err.statusCode === 404) {
         next(new NotFoundError('The requested resource was not found'));
       } else {
         next(new InternalServerError('An error has occured on the server'));

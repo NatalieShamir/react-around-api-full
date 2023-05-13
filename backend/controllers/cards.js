@@ -73,7 +73,7 @@ const updateLikes = (req, res, next, operator) => {
     });
 };
 
-const likeCard = (req, res) => updateLikes(req, res, '$addToSet');
+const likeCard = (req, res, next) => updateLikes(req, res, next, '$addToSet');
 
 const dislikeCard = (req, res) => updateLikes(req, res, '$pull');
 

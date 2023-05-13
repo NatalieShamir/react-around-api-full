@@ -36,11 +36,11 @@ const getUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(BadRequestError('Invalid ID format'));
+        next(new BadRequestError('Invalid ID format'));
       } else if (err.status === 404) {
-        next(NotFoundError('The requested resource was not found'));
+        next(new NotFoundError('The requested resource was not found'));
       } else {
-        next(InternalServerError('An error has occured on the server'));
+        next(new InternalServerError('An error has occured on the server'));
       }
     });
 };

@@ -17,8 +17,8 @@ const getAllUsers = (req, res, next) => {
 };
 
 const getUserData = (id, req, res, next) => {
-  User.findById(id);
-  orFail(() => new NotFoundError('The requested resourse was not found'))//eslint-disable-line
+  User.findById(id)
+    .orFail(() => new NotFoundError('The requested resourse was not found'))
     .then((users) => res.send({ data: users }))
     .catch(next);
 };

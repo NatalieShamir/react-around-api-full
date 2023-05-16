@@ -90,8 +90,7 @@ function App() {
     api
       .getCardList()
       .then((res) => {
-        console.log("show " + JSON.stringify(res))
-        setCards(res);
+        setCards(res.data);
       })
       .catch((err) => console.log(err))
   }, [isLoggedIn]);

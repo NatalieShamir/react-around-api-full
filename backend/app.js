@@ -31,12 +31,12 @@ const NotFoundError = require('./errors/NotFoundError');
 
 require('dotenv').config();
 
+app.use(cors());
+app.options('*', cors());
+
 app.use(requestLogger);
 
 app.use(limiter);
-
-app.use(cors());
-app.options('*', cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

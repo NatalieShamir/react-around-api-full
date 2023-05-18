@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "npx eslint .",
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "deploy": "npm run build && scp -r ./build/* nataliashamir85@around.full.my.to:/home/nataliashamir85/react-around-api-full/frontend"
   },
   "repository": {
     "type": "git",

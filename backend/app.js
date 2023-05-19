@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 const mongoose = require('mongoose');
@@ -28,8 +30,6 @@ const { requestLogger, errorLogger } = require('./middleware/logger');
 const errorHandler = require('./middleware/error-handler');
 
 const NotFoundError = require('./errors/NotFoundError');
-
-require('dotenv').config();
 
 app.use(cors());
 app.options('*', cors());

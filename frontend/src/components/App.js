@@ -160,7 +160,7 @@ function App() {
     api
       .editProfile(name, about)
       .then((res) => {
-        setCurrentUser(res);
+        setCurrentUser(res.data);
         closeAllPopups();
       })
       .catch((err) => console.log(err))
@@ -173,7 +173,7 @@ function App() {
     api
       .setUserAvatar(avatar)
       .then((res) => {
-        setCurrentUser({ ...currentUser, avatar: res.avatar });
+        setCurrentUser({ ...currentUser, avatar: res.data.avatar });
         closeAllPopups();
       })
       .catch((err) => console.log(err))
@@ -220,7 +220,7 @@ function App() {
     api
       .createCard(name, url)
       .then((res) => {
-        setCards([res, ...cards]);
+        setCards([res.data, ...cards]);
         closeAllPopups();
       })
       .catch((err) => console.log(err))

@@ -5,18 +5,16 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   const currentUser = React.useContext(UserContext);
 
   // Checking if the current user is the owner of the current card
-  const isOwn = card.owner._id === currentUser._id;
+  const isOwn = card.owner === currentUser._id;
 
   // Creating a variable which you'll then set in `className` for the delete button
-  const cardDeleteButtonClassName = `card__delete-button ${
-    isOwn ? "card__delete-button_visible" : "card__delete-button_hidden"
-  }`;
+  const cardDeleteButtonClassName = `card__delete-button ${isOwn ? "card__delete-button_visible" : "card__delete-button_hidden"
+    }`;
 
   const isLiked = card.likes.some((user) => user._id === currentUser._id);
 
-  const cardLikeButtonClassName = `card__like-button ${
-    isLiked ? "card__like-button_liked" : "card__like-button_disliked"
-  }`;
+  const cardLikeButtonClassName = `card__like-button ${isLiked ? "card__like-button_liked" : "card__like-button_disliked"
+    }`;
 
   function handleDeleteClick() {
     onCardDelete(card);

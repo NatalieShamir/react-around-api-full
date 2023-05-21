@@ -61,7 +61,7 @@ class Api {
   }
 
   addLike(id) {
-    return this._request(this._baseUrl + "/cards/likes/" + id, {
+    return this._request(this._baseUrl + "/cards/likes" + id, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("jwt")}`,
@@ -71,7 +71,7 @@ class Api {
   }
 
   removeLike(id) {
-    return this._request(this._baseUrl + "/cards/likes/" + id, {
+    return this._request(this._baseUrl + "/cards/likes" + id, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("jwt")}`,
@@ -94,7 +94,7 @@ class Api {
   }
 
   deleteCard(id) {
-    return this._request(this._baseUrl + "/cards/" + id, {
+    return this._request(this._baseUrl + "/cards" + id, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("jwt")}`,

@@ -180,14 +180,14 @@ function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some((user) => user._id === currentUser._id);
+    const isLiked = card.likes.some((userId) => userId === currentUser._id);
 
     if (isLiked) {
       api
         .removeLike(card._id)
         .then((likedCard) => {
           const newCards = cards.map((card) => {
-            return card._id === likedCard._id ? likedCard : card;
+            return card._id === likedCard.data._id ? likedCard.data : card;
           });
           setCards(newCards);
         })
@@ -197,7 +197,7 @@ function App() {
         .addLike(card._id)
         .then((likedCard) => {
           const newCards = cards.map((card) => {
-            return card._id === likedCard._id ? likedCard : card;
+            return card._id === likedCard.data._id ? likedCard.data : card;
           });
           setCards(newCards);
         })

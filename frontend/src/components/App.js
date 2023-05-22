@@ -41,8 +41,8 @@ function App() {
   function register(email, password) {
     auth.signup(email, password)
       .then(res => {
-        if (res.data._id) {
-          setIsSuccessful("success");
+        if (res._id) {
+          setIsSuccessful("successful");
           setTimeout(() => {
             history.push("/signin");
             setIsInfoTooltipOpen(false);

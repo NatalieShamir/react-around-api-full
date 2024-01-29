@@ -4,7 +4,6 @@
 
 - Project Description
 - Technologies and Techniques Used
-- Server Domain Name
 
 **Project Description**
 
@@ -19,9 +18,3 @@ This project is a responsive website, designed to be displayed on most popular s
 - Postman
 - MongoDB Compass
 - Google Cloud Remote Server
-
-**Server Domain Name**
-
-around.full.my.to
-www.around.full.my.to
-api.around.full.my.to

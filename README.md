@@ -30,3 +30,51 @@ Key features include:
 ## Technologies and Techniques Used
 
 ### Frontend
+
+- **CSS**: Cascading Style Sheets (CSS) are utilized for styling and layout, ensuring a visually appealing and cohesive design throughout the website.
+- **React**: React.js is employed as the core JavaScript library for building interactive user interfaces, facilitating the development of dynamic and responsive web components.
+
+### Backend
+
+- **Node.js**: Node.js serves as the backend runtime environment, providing a powerful platform for server-side scripting and enabling efficient handling of asynchronous I/O operations.
+- **MongoDB Server**: MongoDB is utilized as the database management system, offering a flexible and scalable solution for storing and managing structured and unstructured data.
+- **Postman**: Postman is used for testing and debugging API endpoints, ensuring the reliability and functionality of the backend services.
+
+### Database Management
+
+- **MongoDB Compass**: MongoDB Compass is employed as a graphical user interface (GUI) for MongoDB, enabling developers to interactively explore and manipulate data within the database.
+
+### Deployment
+
+- **Google Cloud Remote Server**: A Google Cloud remote server is utilized for hosting the application, providing a reliable and scalable infrastructure for deployment and hosting purposes.
+
+## Getting Started
+
+Follow these steps to set up and explore Around the U.S. React on your local machine.
+
+### Prerequisites
+
+Install npm
+
+```sh
+npm install npm@latest -g
+```
+
+### Clone the Repository:
+
+```bash
+git clone https://github.com/your-username/Around-the-US-React.git
+```
+
+### Install Project Dependencies
+
+```sh
+cd Around-the-US-React
+npm install
+```
+
+### Run the Project
+
+```sh
+npm start
+```
